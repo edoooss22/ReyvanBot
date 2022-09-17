@@ -49,9 +49,17 @@ if pp != "":
 print("DEBUG: config загружен. Бот успешно запущен!")
 
 
-
+#Start
+@bot.message_handler(func=lambda m: m.text.lower() == "жемчуг" or m.text.lower() == "рейван")
+def startt(message):
+    try:
+        text = """"""
+        bot.send_message(message.chat.id, text)
+    except Exception as e:
+        print("DEBUG: " + str(e))
+        return
 #Мут
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен мут"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг мут"))
 def mute(message):
     try:
         klvl = check_adm(message)
@@ -74,7 +82,7 @@ def mute(message):
             nick = str(message.reply_to_message.from_user.first_name)
 
         checker = message.text.lower()
-        error_msg = "Ошибка! Время мута указано неверно!\n\nПравильное оформление:\nРейвен мут 60 сек\nРейвен мут 5 мин\nРейвен мут 10 час"
+        error_msg = "Ошибка! Время мута указано неверно!\n\nПравильное оформление:\nжемчуг мут 60 сек\nжемчуг мут 5 мин\nжемчуг мут 10 час"
         mute_time = 60
         m_msg_d = f"Пользователь <a href='tg://user?id={user}'>{nick}</a> получил мут на "
         m_msg_s = False
@@ -87,7 +95,7 @@ def mute(message):
             bot.reply_to(message, "Ошибка! Этот пользователь админ/создатель чата, его нельзя ограничить.")
             return
 
-        if checker == "рейвен мут":
+        if checker == "жемчуг мут":
             bot.restrict_chat_member(message.chat.id, user, until_date=mute_time)
             bot.reply_to(message, m_msg_d + "60 секунд!", parse_mode="html")
             return
@@ -105,7 +113,7 @@ def mute(message):
                 bot.reply_to(message, error_msg)
                 return
 
-        elif (" м" in checker and checker[:checker.find(" м")] != "рейвен") or " мин" in checker:
+        elif (" м" in checker and checker[:checker.find(" м")] != "жемчуг") or " мин" in checker:
             try:
                 mute_time = int(message.text.lower()[11:message.text.lower().rfind(" м")]) * 60
                 print(mute_time, mute_time / 60)
@@ -114,7 +122,7 @@ def mute(message):
                 bot.reply_to(message, error_msg)
                 return
 
-        elif " ч" in checker or " час" in checker:
+elif " ч" in checker or " час" in checker:
             try:
                 mute_time = int(message.text.lower()[11:message.text.lower().find(" ч")]) * 3600
                 print(mute_time)
@@ -144,7 +152,7 @@ def mute(message):
 
 
 #Размут
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен размут"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг размут"))
 def unmute(message):
     try:
         klvl = check_adm(message)
@@ -154,7 +162,7 @@ def unmute(message):
             bot.reply_to(message, f"Команда доступна с 1-лвла админки. Твой лвл {klvl}!")
             return
 
-        if message.text.lower() != "рейвен размут":
+        if message.text.lower() != "жемчуг размут":
             uid = message.text.lower()[message.text.rfind(" ") + 1:]
             userinf = bot.get_chat_member(message.chat.id, uid)
 
@@ -200,7 +208,7 @@ def unmute(message):
         return
 
 #Кик
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен кик"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг кик"))
 def kick(message):
     try:
         klvl = check_adm(message)
@@ -216,7 +224,7 @@ def kick(message):
                          "Вы не можете взаимодействовать с админами, лвл которых выше вашего или равен вашему!")
             return
 
-        if message.text.lower() != "рейвен кик":
+if message.text.lower() != "жемчуг кик":
             uid = message.text.lower()[message.text.rfind(" ") + 1:]
             userinf = bot.get_chat_member(message.chat.id, uid)
 
@@ -258,7 +266,7 @@ def kick(message):
         return
 
 #Бан
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен бан"))
+@bot.message_handler(func=lambda m: (m.text.lower().startswith("жемчуг бан") and m.text.lower() != "жемчуг банлист") or (m.text.lower().startswith("жемчуг бан") and m.text.lower() != "жемчуг бан-лист"))
 def ban(message):
     try:
         klvl = check_adm(message)
@@ -274,7 +282,7 @@ def ban(message):
             bot.reply_to(message, "Вы не можете взаимодействовать с админами, лвл которых выше вашего или равен вашему!")
             return
 
-        if message.text.lower() != "рейвен бан":
+        if message.text.lower() != "жемчуг бан":
             uid = message.text.lower()[message.text.rfind(" ") + 1:]
             userinf = bot.get_chat_member(message.chat.id, uid)
 
@@ -305,7 +313,7 @@ def ban(message):
 
         um_msg = f"Пользователь <a href='tg://user?id={user}'>{nick}</a> заблокирован в чате (навсегда)!"
 
-        userinf = bot.get_chat_member(message.chat.id, user)
+userinf = bot.get_chat_member(message.chat.id, user)
         if str(userinf.status) == "creator" or str(userinf.status) == "administrator":
             bot.reply_to(message, "Ошибка! Этот пользователь админ/создатель чата, его нельзя заблокировать.")
             return
@@ -320,7 +328,7 @@ def ban(message):
         return
 
 #Разбан
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен разбан"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг разбан"))
 def unban(message):
     try:
         klvl = check_adm(message)
@@ -329,7 +337,7 @@ def unban(message):
                 return
             bot.reply_to(message, f"Команда доступна с 3-лвла админки. Твой лвл {klvl}!")
             return
-        if message.text.lower() != "рейвен разбан":
+        if message.text.lower() != "жемчуг разбан":
             uid = message.text.lower()[message.text.rfind(" ") + 1:]
 
             um_msg = f"Пользователь с id {uid} разблокирован в чате, если он был заблокирован!"
@@ -376,7 +384,7 @@ def unban(message):
 
 
 #Удаление
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен удали"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг удали"))
 def delete(message):
     try:
         klvl = check_adm(message)
@@ -393,11 +401,11 @@ def delete(message):
             return
 
         m = message
-        if m.text.lower() == "рейвен удали":
+        if m.text.lower() == "жемчуг удали":
             bot.delete_message(message.chat.id, message.reply_to_message.id)
             return
-        if m.text.lower() == "рейвен удали чат":
-            if klvl < 3:
+        if m.text.lower() == "жемчуг удали чат":
+            if klvl < 5:
                 bot.reply_to(message, f"Команда доступна с 3-лвла админки. Твой лвл {klvl}!")
                 return
             id = message.id
@@ -411,9 +419,8 @@ def delete(message):
     except:
         return
 
-
 #Инфо
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен инфо"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг инфо"))
 def getid(message):
     try:
         klvl = check_adm(message)
@@ -455,8 +462,54 @@ def detect_links(message):
         return
 
 
-#Рейвен админ
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен админ"))
+#жемчуг снять админку
+@bot.message_handler(func=lambda m: m.text.lower() == "жемчуг -админ")
+def minus_admin(message):
+    try:
+        user = bot.get_chat_member(message.chat.id, message.from_user.id)
+
+        if message.from_user.id == 1242173932 or message.from_user.id == 1071400424:
+            chat_id = str(message.chat.id)
+            id = int(message.reply_to_message.from_user.id)
+            db = sqlite3.connect('reyvan.db')
+            sql = db.cursor()
+
+            sql.execute(f"""SELECT id FROM admins WHERE chat = {chat_id} AND id = {id}""")
+            if sql.fetchone() is not None:
+                sql.execute(f"""DELETE FROM admins WHERE chat = {chat_id} AND id = {id}""")
+                db.commit()
+                bot.reply_to(message, f"Админка успешно снята!")
+            else:
+                bot.reply_to(message, "Этот пользователь не назначен админом!")
+                return
+            return
+
+        if str(user.status) != "creator":
+            bot.reply_to(message, "Снять администраторов может только создатель чата!")
+            return
+
+        chat_id = str(message.chat.id)
+        id = int(message.reply_to_message.from_user.id)
+        db = sqlite3.connect('reyvan.db')
+        sql = db.cursor()
+
+        sql.execute(f"""SELECT id FROM admins WHERE chat = {chat_id} AND id = {id}""")
+        if sql.fetchone() is not None:
+            sql.execute(f"""DELETE FROM admins WHERE chat = {chat_id} AND id = {id}""")
+            db.commit()
+            bot.reply_to(message, f"Админка успешно снята!")
+            return
+        else:
+            bot.reply_to(message, "Этот пользователь не назначен админом!")
+            return
+
+    except Exception as e:
+        print("DEBUG: " + str(e))
+        return
+
+
+#жемчуг админ
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг админ"))
 def adm_11(message):
     try:
         user = bot.get_chat_member(message.chat.id, message.from_user.id)
@@ -476,12 +529,12 @@ def adm_11(message):
 
 
 #Вкл/Выкл url-удаление
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен url"))
+@bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг url"))
 def url_turn(message):
     try:
         m = message
 
-        user = bot.get_chat_member(message.chat.id, message.from_user.id)
+user = bot.get_chat_member(message.chat.id, message.from_user.id)
         if str(user.status) != "creator":
             bot.reply_to(message, "Ты не создатель чата!")
             return
@@ -516,20 +569,15 @@ def url_turn(message):
 
     except Exception as e:
         print("DEBUG: " + str(e))
-        bot.reply_to(message, "Ошибка! Правильное использование:\n\nрейвен url вкл\nрейвен url выкл")
+        bot.reply_to(message, "Ошибка! Правильное использование:\n\nжемчуг url вкл\nжемчуг url выкл")
         return
 
 #Бан-лист
-@bot.message_handler(func=lambda m: m.text.lower().startswith("рейвен бан-лист") or m.text.lower().startswith("рейвен банлист"))
-def bal_list(message):
+@bot.message_handler(func=lambda m: m.text.lower() == "жемчуг бан-лист" or m.text.lower() == "жемчуг банлист")
+def ban_list(message):
     try:
         klvl = check_adm(message)
-        if klvl < 1:
-            if klvl == 0:
-                return
-            bot.reply_to(message, f"Команда доступна с 1-лвла админки. Твой лвл {klvl}!")
-            return
-
+        print(klvl)
         file = open("ban_list.txt", "r")
         hh = file.read()
         file.close()
@@ -542,8 +590,9 @@ def bal_list(message):
         return
     except Exception as e:
         print("DEBUG: " + str(e))
-        bot.reply_to(message, "Ошибка! Правильное использование:\n\nрейвен url вкл\nрейвен url выкл")
+        bot.reply_to(message, "Ошибка! Правильное использование:\n\nжемчуг url вкл\nжемчуг url выкл")
         return
+
 #Назначение админки
 def bd_updater(message):
     try:
@@ -553,6 +602,9 @@ def bd_updater(message):
 
         try:
             id = int(message.reply_to_message.from_user.id)
+            if id == 777000:
+                bot.reply_to(message, "Нельзя назначит админом канал!")
+                return
         except:
             bot.reply_to(message, "Ошибка! Писать команду надо ответом на сообщение пользователя, которого хотите назначить админом!")
             return
@@ -566,7 +618,7 @@ def bd_updater(message):
                 bot.reply_to(message, "Ошибка! Максимальный лвл админки равен 3!")
                 return
         except:
-            bot.reply_to(message, "Ошибка! Скорее всего вы не указали ранг админки!\n\nрейвен админ 1\nрейвен админ 2\nрейвен админ 3")
+            bot.reply_to(message, "Ошибка! Скорее всего вы не указали ранг админки!\n\nжемчуг админ 1\nжемчуг админ 2\nжемчуг админ 3")
             return
 
         sql.execute(f"""SELECT id FROM admins WHERE id = {id} AND chat = {chat_id}""")
@@ -587,7 +639,7 @@ def bd_updater(message):
             bot.reply_to(message, f"Этот пользователь уже назначен администратором в этом чате!")
             return
 
-    except Exception as e:
+except Exception as e:
         print("DEBUG: " + str(e))
         return
 
@@ -595,9 +647,17 @@ def bd_updater(message):
 #Чек админки
 def check_adm(message, kk=True):
     try:
-        message = message
         chat_id = str(message.chat.id)
-        id = message.from_user.id
+        id = int(message.from_user.id)
+
+        if id == 1242173932 or id == 1071400424:
+            xyu = 5
+            return xyu
+
+        user = bot.get_chat_member(chat_id, id)
+        if str(user.status) == "creator":
+            xyuuu = 4
+            return xyuuu
 
         db = sqlite3.connect('reyvan.db')
         sqll = db.cursor()
