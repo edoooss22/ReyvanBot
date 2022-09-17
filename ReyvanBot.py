@@ -122,7 +122,7 @@ def mute(message):
                 bot.reply_to(message, error_msg)
                 return
 
-elif " ч" in checker or " час" in checker:
+        elif " ч" in checker or " час" in checker:
             try:
                 mute_time = int(message.text.lower()[11:message.text.lower().find(" ч")]) * 3600
                 print(mute_time)
@@ -224,7 +224,7 @@ def kick(message):
                          "Вы не можете взаимодействовать с админами, лвл которых выше вашего или равен вашему!")
             return
 
-if message.text.lower() != "жемчуг кик":
+        if message.text.lower() != "жемчуг кик":
             uid = message.text.lower()[message.text.rfind(" ") + 1:]
             userinf = bot.get_chat_member(message.chat.id, uid)
 
@@ -313,7 +313,7 @@ def ban(message):
 
         um_msg = f"Пользователь <a href='tg://user?id={user}'>{nick}</a> заблокирован в чате (навсегда)!"
 
-userinf = bot.get_chat_member(message.chat.id, user)
+        userinf = bot.get_chat_member(message.chat.id, user)
         if str(userinf.status) == "creator" or str(userinf.status) == "administrator":
             bot.reply_to(message, "Ошибка! Этот пользователь админ/создатель чата, его нельзя заблокировать.")
             return
@@ -418,6 +418,7 @@ def delete(message):
             return
     except:
         return
+
 
 #Инфо
 @bot.message_handler(func=lambda m: m.text.lower().startswith("жемчуг инфо"))
@@ -534,7 +535,7 @@ def url_turn(message):
     try:
         m = message
 
-user = bot.get_chat_member(message.chat.id, message.from_user.id)
+        user = bot.get_chat_member(message.chat.id, message.from_user.id)
         if str(user.status) != "creator":
             bot.reply_to(message, "Ты не создатель чата!")
             return
@@ -639,7 +640,7 @@ def bd_updater(message):
             bot.reply_to(message, f"Этот пользователь уже назначен администратором в этом чате!")
             return
 
-except Exception as e:
+    except Exception as e:
         print("DEBUG: " + str(e))
         return
 
